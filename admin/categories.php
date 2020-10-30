@@ -294,7 +294,7 @@
 <?php       
             //if the user does not exist , show error
             }else{
-                redirectHome('there is no such id', 'danger')
+                redirectHome('there is no such id', 'danger');
             }
         }elseif($do == 'update'){
             echo 'welcome to ' . $do .' in the ' . $pageTitle. ' page';
