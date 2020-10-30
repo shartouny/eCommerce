@@ -156,7 +156,7 @@
                     $formErrors [] = 'username cant be less then <strong> 4 characters </strong>';
                 }
                 if(empty($pass)){
-                    $formErrors [] = 'Password cant be <strong>empty</strong>';
+                    $formErrors [] = 'Password cant be <strong> empty </strong>';
                 }
                 if(empty($email)){
                     $formErrors [] = 'email cant be <strong>empty</strong>';
@@ -318,7 +318,7 @@
                 
                 foreach($formErrors as $error){
                     echo '<div class = "alert alert-danger">' . $error . '</div>';
-                    echo '<form method="POST" action="?do=edit&userid='. $_SESSION['id'] .'"><input type="submit" value="back" class="btn btn-primary"></form>';
+                    echo '<a href="?do=edit&userid='. $_SESSION['id'] .'" class="btn btn-danger">back</a>';
                 }
 
                 //check if there is an error
@@ -340,22 +340,23 @@
                 
             echo "<h1 class = 'text-center'>Delete Member</h1>";
             echo "<div class='container'>";
-            //delet members 
-            
-            //check if get request userid is numeric and get the integar value from it
-            $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
-
-            //select all data depend on this id 
-            $check = checkItem('userid', 'users', $userid);
-
-            if($check >0){
+                //delet members 
                 
-                $stmt = $con->prepare("DELETE FROM users WHERE userID = :userID");
-                $stmt->bindParam('userID',$userid);
-                $stmt->execute();
-                
-                echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Member Deleted </div>';
-                echo '<a href="members.php" class = "btn btn-primary">ok</a>';
+                //check if get request userid is numeric and get the integar value from it
+                $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
+
+                //select all data depend on this id 
+                $check = checkItem('userid', 'users', $userid);
+
+                if($check >0){
+                    
+                    $stmt = $con->prepare("DELETE FROM users WHERE userID = :userID");
+                    $stmt->bindParam('userID',$userid);
+                    $stmt->execute();
+                    
+                    echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Member Deleted </div>';
+                    echo '<a href="members.php" class="btn btn-primary">ok</a>
+             </div>';
 
             }else{
                 echo "no id exits";

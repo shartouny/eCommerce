@@ -31,5 +31,9 @@ $(function(){
     $('.cat h3').click(function(){
         $(this).next('.full-view').fadeToggle(500);
     });
-    
+
+    //trigger the selectbox it plugin 
+    $("select").selectBoxIt({
+        autoWidth: false
+    });    
 });

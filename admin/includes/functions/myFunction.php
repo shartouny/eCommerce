@@ -29,11 +29,8 @@
     function redirectHome($msg, $msgType, $url=null, $seconds =3){
         $url = null ? 'index.php' : isset( $_SERVER['HTTP_REFERER'])  &&  !empty($_SERVER['HTTP_REFERER']) ?  $_SERVER['HTTP_REFERER'] : 'index.php';
         
-        echo "<div class='container'>
-              <div class='alert alert-" . $msgType . "'>$msg</div>
-              <div class='alert alert-info'>You will be redirected to the $url page after $seconds seconds.</div>
-              </div>";
-        header("refresh:$seconds;url=$url");
+        echo '<div class="alert alert-'.$msgType.'">'. $msg .'</div>
+                <a href="'.$url.'" class="btn btn-primary">ok</a>';
         exit();
     }
 

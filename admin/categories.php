@@ -294,8 +294,7 @@
 <?php       
             //if the user does not exist , show error
             }else{
-            header("Location: dashboard.php");
-            echo 'there is no such id';
+                redirectHome('there is no such id', 'danger')
             }
         }elseif($do == 'update'){
             echo 'welcome to ' . $do .' in the ' . $pageTitle. ' page';

@@ -6,8 +6,8 @@
       
       //specify the getLatest function paramateres
       $specificLatestUser = 3; 
-      $latest = getLatest("*", "users", "userID", "GroupID!=1", $specificLatestUser);
-
+      $latestUsers = getLatest("*", "users", "userID", "GroupID!=1", $specificLatestUser);
+      $latestItems = getLatest("*", "items", "ItemID");
 
       // START CONTENT OF DASHBOARD PAGE
      ?> 
@@ -31,12 +31,14 @@
               </div>
             </div>
           </a>
-          <div class="col-md-3">
-            <div class="stat st-items">
-              Total Items
-              <span>2000</span>
+          <a href="items.php">
+            <div class="col-md-3">
+              <div class="stat st-items">
+                Total Items
+                <span><?php echo countItems('*', 'items') ?></span>
+              </div>
             </div>
-          </div>
+          </a>
           <div class="col-md-3">
             <div class="stat st-comments">
               Total Comments
@@ -56,9 +58,9 @@
               <div class="panel-body">
                 <ul class="list-unstyled latest-users"> 
                   <?php
-                      foreach($latest as $user){
+                      foreach($latestUsers as $user){
                         echo '
-                              <li class="alert alert-info"><i class="fas fa-user"></i> '. $user['Username']. '
+                              <li class="alert alert-info"><i class="fas fa-user icon"></i> '. $user['Username']. '
                               <div class="pull-right"> 
                                 <a href="members.php?do=edit&userid=' . $user['userID'] . '" class="btn btn-success fa fa-edit " title="Edit Member" ></a>
                                 <a href="members.php?do=delete&userid=' . $user['userID'] . '" class="confirm btn btn-danger fa fa-user-minus " title="Delete Member"></a>
@@ -69,9 +71,11 @@
                               }
                               '
                               </li>
-                            </ul>';
+                            ';
                       }
+                      
                   ?>
+                </ul>
               </div>
             </div>
           </div>
@@ -82,8 +86,19 @@
                 Latest items
               </div>
               <div class="panel-body">
-                <i class="fas fa-tag"></i>
-                Latest Registered Users
+                <ul class="list-unstyled latest-users">
+                  <?php
+                    foreach($latestItems as $item){
+                      echo '
+                      <li class="alert alert-info"><i class="fas fa-shopping-bag icon"></i> '. $item['Name']. '
+                      <div class="pull-right">
+                      <a href="items.php?do=edit&itemid=' . $item['ItemID'] . '" class="btn btn-success fa fa-edit " title="Edit Member" ></a>
+                      <a href="items.php?do=delete&itemid=' . $item['ItemID'] . '" class="confirm btn btn-danger fa fa-user-minus " title="Delete Member"></a>
+                      </div>
+                      </li>';
+                    }
+                  ?>
+                </ul>
               </div>
             </div>
           </div>
