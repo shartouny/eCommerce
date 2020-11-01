@@ -16,46 +16,50 @@
             if(isset($_GET['sort']) && in_array($_GET['sort'],$sort_array)){
                 $sort = $_GET['sort'];
             }
-            $stmt = $con->prepare("SELECT * FROM categories ORDER BY Ordering $sort");
+            $stmt = $con->prepare("SELECT * FROM categories ORDER BY ID $sort");
             $stmt->execute();
             $cats= $stmt->fetchAll();
 ?>
         <h1 class="text-center">Manage Categories</h1>
         <div class="container categories">
-            <div class="panel panel-default">
-                <div class="panel-heading">Manage Categories
-                    <div class="ordering pull-right">
-                        Sort:
-                        <a href="?sort=DESC" class="fa fa-sort-down<?php if($sort == 'ASC'){echo ' active';} ?>"></a>
-                        <a href="?sort=ASC" class="fa fa-sort-up<?php if($sort == 'DESC'){echo ' active';} ?>"></a>
-                        view :  <span>classick</span>
-                                <span>full</span>
+            <?php if(!empty($cats)){ ?>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Manage Categories
+                        <div class="ordering pull-right">
+                            Sort:
+                            <a href="?sort=DESC" class="fa fa-sort-down<?php if($sort == 'ASC'){echo ' active';} ?>"></a>
+                            <a href="?sort=ASC" class="fa fa-sort-up<?php if($sort == 'DESC'){echo ' active';} ?>"></a>
+                            view :  <span>classick</span>
+                                    <span>full</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <?php
+                            foreach($cats as $cat){
+                                echo"
+                                    <div class='cat'>
+                                        <div>
+                                            <a href='#' class='btn btn-danger pull-right fas fa-trash'></a>                                
+                                            <a href='?do=edit&catid=" . $cat['ID'] . "'class='btn btn-success fas fa-edit pull-right'></a>
+                                        </div>
+                                        <h3>".$cat['Name']."</h3>
+                                        <div class='full-view'>
+                                            <p>"; if($cat['Description']==''){echo "no description";}else{echo $cat['Description'];}echo"</p>";
+                                            if($cat['Visibility']==1){echo "<i class='btn btn-danger fas fa-eye-slash'></i>";}else {echo "<i class='btn btn-success fas fa-eye'></i>";}
+                                            if($cat['Allow_Comment']==1){echo "<i class='btn btn-danger fas fa-comment-slash'></i>";}else {echo "<i class='btn btn-success fas fa-comment'></i>";}
+                                            if($cat['Allow_Ads']==1){echo "<i class='btn btn-danger fas fa-ad'></i>";}else {echo "<i class='btn btn-success fas fa-ad'></i>";}
+                                echo"
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                ";                             
+                            }
+                        ?>
                     </div>
                 </div>
-                <div class="panel-body">
-                    <?php
-                        foreach($cats as $cat){
-                            echo"
-                                <div class='cat'>
-                                    <div>
-                                        <a href='#' class='btn btn-danger pull-right fas fa-trash'></a>                                
-                                        <a href='?do=edit&catid=" . $cat['ID'] . "'class='btn btn-success fas fa-edit pull-right'></a>
-                                    </div>
-                                    <h3>".$cat['Name']."</h3>
-                                    <div class='full-view'>
-                                        <p>"; if($cat['Description']==''){echo "no description";}else{echo $cat['Description'];}echo"</p>";
-                                        if($cat['Visibility']==1){echo "<i class='btn btn-danger fas fa-eye-slash'></i>";}else {echo "<i class='btn btn-success fas fa-eye'></i>";}
-                                        if($cat['Allow_Comment']==1){echo "<i class='btn btn-danger fas fa-comment-slash'></i>";}else {echo "<i class='btn btn-success fas fa-comment'></i>";}
-                                        if($cat['Allow_Ads']==1){echo "<i class='btn btn-danger fas fa-ad'></i>";}else {echo "<i class='btn btn-success fas fa-ad'></i>";}
-                            echo"
-                                    </div>
-                                </div>
-                                <hr/>
-                            ";                             
-                        }
-                    ?>
-                </div>
-            </div>
+            <?php }else{
+                echo '<div class="alert alert-danger">No items Yet</div>';                
+            } ?>
             <a href="?do=add" class="fa fa-plus btn btn-info"></a>
         </div>
 

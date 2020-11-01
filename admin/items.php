@@ -27,45 +27,49 @@
             <!-- manage page design -->
             <h1 class="text-center">Manage Items</h1>
             <div class="container">
-                <div class="table-responsive">
-                    <table class="main-table text-center table table-bordered">
-                        <tr>
-                            <td>#ID</td>
-                            <td>Name</td>
-                            <td>Description</td>
-                            <td>Owned By</td>
-                            <td>Category</td>
-                            <td>Price</td>
-                            <td>Adding  Date</td>
-                            <td>Control</td>
-                        </tr>
-                        <?php
-                            foreach($items as $item){
-                                echo "
-                                    <tr>
-                                        <td>". $item['ItemID'] . "</td>
-                                        <td>". $item['Name'] . "</td>
-                                        <td>". $item['Description'] . "</td>
-                                        <td>". $item['Owner'] . "</td>
-                                        <td>". $item['CatName'] . "</td>
-                                        <td>". $item['Price'] . "</td>
-                                        <td>". $item['AddDate'] . "</td>
-                                        <td>
-                                            <a href='?do=edit&itemid=" . $item['ItemID'] . "' class='btn btn-success fa fa-edit' title='Edit Item' ></a>
-                                            <a href='?do=delete&itemid=" . $item['ItemID'] . "' class='confirm btn btn-danger fa fa-trash' title='Delete Item'></a>";
-                                            if($item['Approve']==0){
-                                                echo "
-                                                <a href='?do=approve&itemid=" . $item['ItemID'] . "' class='btn btn-info fa fa-check' title='Edit Item' ></a>";}                                 
-                                        echo "</td>";
-                                   
-                                        
-                                        
+                <?php if(!empty($items)){ ?>
+                    <div class="table-responsive">
+                        <table class="main-table text-center table table-bordered">
+                            <tr>
+                                <td>#ID</td>
+                                <td>Name</td>
+                                <td>Description</td>
+                                <td>Owned By</td>
+                                <td>Category</td>
+                                <td>Price</td>
+                                <td>Adding  Date</td>
+                                <td>Control</td>
+                            </tr>
+                            <?php
+                                foreach($items as $item){
+                                    echo "
+                                        <tr>
+                                            <td>". $item['ItemID'] . "</td>
+                                            <td>". $item['Name'] . "</td>
+                                            <td>". $item['Description'] . "</td>
+                                            <td>". $item['Owner'] . "</td>
+                                            <td>". $item['CatName'] . "</td>
+                                            <td>". $item['Price'] . "</td>
+                                            <td>". $item['AddDate'] . "</td>
+                                            <td>
+                                                <a href='?do=edit&itemid=" . $item['ItemID'] . "' class='btn btn-success fa fa-edit' title='Edit Item' ></a>
+                                                <a href='?do=delete&itemid=" . $item['ItemID'] . "' class='confirm btn btn-danger fa fa-trash' title='Delete Item'></a>";
+                                                if($item['Approve']==0){
+                                                    echo "
+                                                    <a href='?do=approve&itemid=" . $item['ItemID'] . "' class='btn btn-info fa fa-check' title='Edit Item' ></a>";}                                 
+                                    echo "  </td>";
                                     
-                                    echo "</tr>";
-                            }
-                        ?>
-                    </table>
-                </div>
+                                            
+                                            
+                                        
+                                echo "  </tr>";
+                                }
+                            ?>
+                        </table>
+                    </div>
+                <?php }else{
+                    echo '<div class="alert alert-danger">No items Yet</div>';                
+                } ?>
                 <a class="btn btn-primary fa fa-plus" title="Add Item" href="?do=add"></a>
             </div>
 <?php
@@ -435,8 +439,49 @@
                         
                         <!-- end btn -->
                     </form>
-                
+                    <?php
+                    //select all comments from the database
+                    $stmt = $con->prepare("SELECT comments.*, users.Username AS UserCmnt FROM comments 
+                                            INNER JOIN users ON users.userID = comments.UserID
+                                            WHERE ItemID =?");
+                    $stmt->execute(array($itemid));
+                    $cmnts = $stmt->fetchAll();
+                    if(!empty($cmnts)){
+                        ?>
+                        <h1 class="text-center">Manage <?php echo '[ '. $item['Name'] .' ]'?> Comments</h1>
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="main-table text-center table table-bordered">
+                                    <tr>
+                                        <td>Comment</td>
+                                        <td>User Commented</td>
+                                        <td>Date Commented</td>
+                                        <td>Control</td>
+                                    </tr>
+                                    <?php
+                                    foreach($cmnts as $cmnt){
+                                        echo'<tr>
+                                                <td>'.$cmnt['Cmnt'].'</td>
+                                                <td>'.$cmnt['UserCmnt'].'</td>
+                                                <td>'.$cmnt['CmntDate'].'</td>
+                                                <td>
+                                                    <a class="btn btn-success fas fa-edit" href=?do=edit&cmntid='.$cmnt['CmntID'].'><a>
+                                                    <a class="btn btn-danger fas fa-trash" href=?do=delete&cmntid='.$cmnt['CmntID'].'><a>';
+                                                    if($cmnt['Status']==0){
+                                                        echo ' <a class="btn btn-info fas fa-check" href="comments.php?do=approve&cmntid='.$cmnt['CmntID'].'"></a>';
+                                                    }echo
+                                                '</td>
+                                            </tr>';
+                                    }
+                                    ?>
+                                </table>
+                            </div>
+                        </div>
+                    <?php }else{
+                        echo '<i>no comments on this items</i>';
+                    } ?>
                 </div>
+                
 
 <?php       
             //if the user does not exist , show error

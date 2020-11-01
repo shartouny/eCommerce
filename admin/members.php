@@ -28,42 +28,46 @@
             <!-- manage page design -->
             <h1 class="text-center">Members</h1>
             <div class="container">
-                <div class="table-responsive">
-                    <table class="main-table text-center table table-bordered">
-                        <tr>
-                            <td>#ID</td>
-                            <td>Username</td>
-                            <td>Email Address</td>
-                            <td>Full Name</td>
-                            <td>Registered Date</td>
-                            <td>Control</td>
-                        </tr>
-                        <?php
-                            foreach($rows as $row){
-                                echo "
-                                    <tr>
-                                        <td>". $row['userID'] . "</td>
-                                        <td>". $row['Username'] . "</td>
-                                        <td>". $row['Email'] . "</td>
-                                        <td>". $row['FullName'] . "</td>
-                                        <td>". $row['Date'] . "</td>
-                                        <td>
-                                            <a href='?do=edit&userid=" . $row['userID'] . "' class='btn btn-success fa fa-edit' title='Edit Member' ></a>
-                                            <a href='?do=delete&userid=" . $row['userID'] . "' class='confirm btn btn-danger fa fa-trash' title='Delete Member'></a>
-                                        ";
-                                        if($row['RegStatus']==0){
-                                            echo "<a href='?do=activate&userid=" . $row['userID'] . "' class=' btn btn-info fa fa-check' title='Activate Member'></a>
+                <?php if(!empty($rows)){ ?>
+                    <div class="table-responsive">
+                        <table class="main-table text-center table table-bordered">
+                            <tr>
+                                <td>#ID</td>
+                                <td>Username</td>
+                                <td>Email Address</td>
+                                <td>Full Name</td>
+                                <td>Registered Date</td>
+                                <td>Control</td>
+                            </tr>
+                            <?php
+                                foreach($rows as $row){
+                                    echo "
+                                        <tr>
+                                            <td>". $row['userID'] . "</td>
+                                            <td>". $row['Username'] . "</td>
+                                            <td>". $row['Email'] . "</td>
+                                            <td>". $row['FullName'] . "</td>
+                                            <td>". $row['Date'] . "</td>
+                                            <td>
+                                                <a href='?do=edit&userid=" . $row['userID'] . "' class='btn btn-success fa fa-edit' title='Edit Member' ></a>
+                                                <a href='?do=delete&userid=" . $row['userID'] . "' class='confirm btn btn-danger fa fa-trash' title='Delete Member'></a>
                                             ";
-                                        }
-                                        "
-                                        </td>
-                                    </tr>
-                                ";
-                            }
-                        ?>
-                    </table>
-                </div>
-                <a class="btn btn-primary fa fa-plus" title="Add Member" href="?do=add"></a>
+                                            if($row['RegStatus']==0){
+                                                echo "<a href='?do=activate&userid=" . $row['userID'] . "' class=' btn btn-info fa fa-check' title='Activate Member'></a>
+                                                ";
+                                            }
+                                            "
+                                            </td>
+                                        </tr>
+                                    ";
+                                }
+                            ?>
+                        </table>
+                    </div>
+                <?php }else{
+                    echo '<div class="alert alert-danger">No Members Yet</div>';                
+                } ?>
+                <a class="btn btn-primary fa fa-plus" title="Add Member" href="?do=add"></a>                    
             </div>
 <?php
         }elseif($do == 'add'){
@@ -280,8 +284,7 @@
 <?php       
             //if the user does not exist , show error
             }else{
-            header("Location: dashboard.php");
-            echo 'there is no such id';
+                reditectHome('no such id', 'danger') ;               
             }
         }elseif($do == 'update'){
             

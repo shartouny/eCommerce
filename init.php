@@ -2,11 +2,11 @@
 include 'connect.php';
 //Routes
 
-$tpl    = "includes/templates/";  // Template directory
-$css    = "layout/css/" ;         // css directory
-$js     = "layout/js/";           //js directory
-$lang   = "includes/languages/";  //laguages directory
-$fun    = "includes/functions/";  //function directory
+$tpl    = "admin/includes/templates/";  // Template directory
+$css    = "admin/layout/css/" ;         // css directory
+$js     = "admin/layout/js/";           //js directory
+$lang   = "admin/includes/languages/";  //laguages directory
+$fun    = "admin/includes/functions/";  //function directory
 // include the important files
 include $fun  . "myFunction.php";
 include $lang . "english.php";
