@@ -326,13 +326,23 @@
 
                 //check if there is an error
                 if(empty($formErrors)){
-                    //update the database
-                    $stmt = $con->prepare("UPDATE users SET Username = ?,  Password = ?, Email = ?, FullName = ? WHERE userID = ?");
-                    $stmt -> execute(array($user, $pass, $email, $fullname,  $id));
-    
-                    //print the sucess message
-                    echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record updated </div>';
-                    echo '<a href="members.php" class = "btn btn-primary">ok</a>';
+                    
+                    $slstmt = $con->prepare('SELECT * FROM users WHERE Username = ? AND userID != ?');
+                    $slstmt->execute(array($user, $id));
+
+                    $exist = $slstmt->rowCount();
+                    if($exist ==1){
+                        redirectHome("user already exists", 'danger', 'back');
+                    }else{
+
+                        //update the database
+                        $stmt = $con->prepare("UPDATE users SET Username = ?,  Password = ?, Email = ?, FullName = ? WHERE userID = ?");
+                        $stmt -> execute(array($user, $pass, $email, $fullname,  $id));
+        
+                        //print the sucess message
+                        echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record updated </div>';
+                        echo '<a href="members.php" class = "btn btn-primary">ok</a>';
+                    }
                 }
 
             }else{

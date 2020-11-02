@@ -88,10 +88,7 @@
                             </li>';
                       }
                     }else{
-                      echo '
-                          <li class="alert alert-info"><i class="fas fa-user icon"></i>
-                          No Users Yet
-                          </li>';
+                      echo '<i>no members</i>';
                     }  
                   ?>
                 </ul>
@@ -122,6 +119,8 @@
                         </div>
                       </li>';
                     }
+                  }else{
+                    echo '<i>no items</i>';
                   }
                   ?>
                 </ul>
@@ -141,7 +140,8 @@
               <div class="panel-body">
                 <?php
                   $stmt = $con->prepare("SELECT comments.*, users.FullName AS UserCmnt FROM comments 
-                                            INNER JOIN users ON users.userID = comments.UserID");
+                                            INNER JOIN users ON users.userID = comments.UserID 
+                                            ORDER BY CmntID DESC LIMIT 4");
                   $stmt->execute();
                   $cmnts = $stmt->fetchAll();
                   if(!empty($cmnts)){

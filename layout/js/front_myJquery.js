@@ -1,5 +1,10 @@
 $(function(){
     'use strict';
+    //trigger the selectboxit plugin 
+    $("select").selectBoxIt({
+        autoWidth: false
+    });  
+    
     $('[placeholder]').focus(function(){
         $(this).attr('data-text', $(this).attr('placeholder'));
         $(this).attr('placeholder', '');
@@ -27,22 +32,15 @@ $(function(){
     $('.confirm').click(function(){
         return confirm('Are You Sure?');
     });
-    // Category view option
-    $('.cat h3').click(function(){
-        $(this).next('.full-view').fadeToggle(500);
+
+    
+    //switch between login and signup
+    $('.login-page h1 span').click(function(){
+        $(this).removeClass('selected').siblings().addClass('selected');
+        $(this).hide().siblings().show();
+        $('.login-page form').hide();
+        $('.' + $(this).data('class')).fadeIn();
+        
     });
 
-    //trigger the selectbox it plugin 
-    $("select").selectBoxIt({
-        autoWidth: false
-    });  
-    //hide and view the info in the latest stuff
-    $('.toggle-info').click(function(){
-        $(this).toggleClass('selected').parent().next('.panel-body').fadeToggle();
-        if($(this).hasClass('selected')){
-            $(this).html('<span class="pull-right toggle-info fas fa-minus"></span>');
-        }else{
-            $(this).html('<span class="pull-right toggle-info fas fa-plus"></span>')
-        }
-    });
 });

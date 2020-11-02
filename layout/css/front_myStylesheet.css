@@ -1,0 +1,97 @@
+/* main rules  */
+
+body{
+    background-color: #f4f4f4;
+    font-size: 16px;
+    margin-bottom:20px ;
+}
+
+a:hover{
+    text-decoration: none;
+}
+.asterisk{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.428571;
+    box-sizing: border-box;
+    font-size: 27px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #ce2a2a;
+    z-index: 1;
+}
+h1{
+    font-size: 50px;
+    margin: 40px 0;
+    font-weight: bold;
+    color: #666;
+}
+/* start header  */
+.upper-bar{
+    padding: 10px;
+    background-color: white;
+}
+/* end header  */
+
+/* start login form */
+.login-page form{
+    max-width: 299px;
+    margin: auto;
+}
+.login-page form input{
+    margin-bottom: 10px;
+    position: relative;   
+}
+.input-container{
+    position: relative;
+}
+/* end login form  */
+.login-page .selected{
+    color: black;
+}
+.login-page h1{
+    color: #d8d8d8;
+    cursor: pointer;
+}
+.login-page h1 span.signup{
+    display: none;
+}
+.login-page form.signup{
+    display: none;
+}
+/* start bootstrap edit */
+
+.navbar{
+    border-radius: 0;
+    margin-bottom: 0;
+}
+.navbar-brand{
+    font-size: 1em;
+}
+/* end bootsrap edit */
+
+/* start dashboard styles */
+/* end dashboard styles */
+
+/* start members styles */
+/* end members style */
+
+/* start of categories styles */
+.item-box{
+    position: relative;
+}
+.item-box .price-tag{
+    position: absolute;
+    background-color: #d8d8d8;
+    color: #333;
+    font-weight: 900;
+}
+
+/* end of categories styles */
+
+/* start profile styles */
+.information{
+    margin: 20px 0 0 0;
+}
+/* end profile styles */

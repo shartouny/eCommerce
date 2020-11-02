@@ -14,7 +14,7 @@
             'Statistics'    => 'Statistics',        
             'Logs'          => 'Logs',
             'Comments'      => 'Comments',   
-            ''              => '',   
+            'Client Area'   => 'Client Area',   
             ''              => ''   
             
         );

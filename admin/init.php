@@ -8,7 +8,7 @@ $js     = "layout/js/";           //js directory
 $lang   = "includes/languages/";  //laguages directory
 $fun    = "includes/functions/";  //function directory
 // include the important files
-include $fun  . "myFunction.php";
+include $fun  . "bk_myFunction.php";
 include $lang . "english.php";
 include $tpl  . "header.inc.php";
 

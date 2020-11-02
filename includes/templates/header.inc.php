@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<?php echo $css ?>all.css">
     <link rel="stylesheet" href="<?php echo $css ?>jquery-ui.css"/>
     <link rel="stylesheet" href="<?php echo $css ?>jquery.selectBoxIt.css"/>
-    <link rel="stylesheet" href="<?php echo $css ?>myStylesheet.css"/>
+    <link rel="stylesheet" href="<?php echo $css ?>front_myStylesheet.css"/>
 
 </head>
 <body>

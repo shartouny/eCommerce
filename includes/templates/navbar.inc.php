@@ -1,3 +1,23 @@
+
+<div class="upper-bar">
+  <div class="container">
+    <?php
+      if(isset($_SESSION['user'])){
+        echo 'Welcome '. $_SESSION['user'] .
+        ' <a href="profile.php">My Profile </a>
+          <a href="logout.php">Logout</a> ';
+        $status = checkUserStatus($_SESSION['user']);
+        if($status!=0){
+          
+        }
+      }else{?>
+    <a href="login.php">
+      <span class="pull-right">login/signup</span>
+    </a>
+      <?php } ?>
+  </div>
+</div>
+
 <nav class="navbar navbar-inverse">
   <div class="container">
     <div class="navbar-header">
@@ -7,30 +27,19 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="dashboard.php" class="navbar-brand">Brand</a>
+      <a href="index.php" class="navbar-brand">eCommerce</a>
     </div>
-    <div class="collapse navbar-collapse" id="app-nav">
+    <div class="collapse navbar-collapse navbar-right" id="app-nav">
       <ul class="nav navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="categories.php"><?php echo lang('Categories') ?></a></li>
-        <li class="nav-item"><a class="nav-link" href="items.php"><?php echo lang('Items') ?></a></li>
-        <li class="nav-item"><a class="nav-link" href="members.php"><?php echo lang('Members') ?></a></li>
-        <li class="nav-item"><a class="nav-link" href="comments.php"><?php echo lang('Comments') ?></a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><?php echo lang('Statistics') ?></a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><?php echo lang('Logs') ?></a></li>
+        <?php
+          $categories = getCat();
+          foreach($categories as $cat){
+              echo '<li class="nav-item"><a class="nav-link" href="categories.php?id='.$cat['ID'].'&pagename='.str_replace(' ', '-', $cat['Name']).'">'.$cat['Name'].'</a></li>';
+          }
+        ?>       
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class ="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo lang('Account') ?><span class="caret"></span>
-          <ul class="dropdown-menu"></a> 
-            <li><a class="dropdown-item" href="members.php?do=edit&userid=<?php echo $_SESSION['id']?>"><?php echo lang('Edit Profile') ?></a></li>
-            <li><a class="dropdown-item" href="#"><?php echo lang('Settings') ?></a></li>
-            <li><a class="dropdown-item" href="logout.php"><?php echo lang('Logout') ?></a></li>
-          </ul>
-        </li>
-      </ul>
+
     </div>
   </div>
 </nav> 
-
-
 
