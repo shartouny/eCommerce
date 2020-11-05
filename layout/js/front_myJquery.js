@@ -42,5 +42,7 @@ $(function(){
         $('.' + $(this).data('class')).fadeIn();
         
     });
-
+    $('.live').keyup(function(){
+        $($(this).data('class')).text($(this).val());
+    });
 });

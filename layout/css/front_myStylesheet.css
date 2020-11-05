@@ -94,4 +94,24 @@ h1{
 .information{
     margin: 20px 0 0 0;
 }
+.information ul{
+    margin: 0;
+    padding: 0;
+}
+.information ul li{
+    padding: 10px;
+}
+.information ul li:nth-child(even){
+    background-color: #eee;
+}
+.information ul span{
+    display: inline-block;
+    width: 200px;
+}
+.thumbnail .date{
+    text-align: right;
+    font-size: 13px;
+    color: #aaa;
+    font-weight: bold;
+}
 /* end profile styles */

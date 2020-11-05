@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2020 at 07:45 AM
+-- Generation Time: Nov 05, 2020 at 09:33 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `ID` smallint(6) NOT NULL,
+  `ID` int(11) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `Description` text NOT NULL,
   `Ordering` int(11) DEFAULT NULL,
@@ -37,6 +37,35 @@ CREATE TABLE `categories` (
   `Allow_Ads` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`ID`, `Name`, `Description`, `Ordering`, `Visibility`, `Allow_Comment`, `Allow_Ads`) VALUES
+(8, 'laptops', 'laptops used and new', 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `CmntID` int(11) NOT NULL,
+  `Cmnt` text NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `ItemID` int(11) NOT NULL,
+  `CmntDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Status` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`CmntID`, `Cmnt`, `UserID`, `ItemID`, `CmntDate`, `Status`) VALUES
+(0, 'nice item price please ?', 41, 2, '2020-11-05 08:30:42', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -44,7 +73,7 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `items` (
-  `itemID` int(11) NOT NULL,
+  `ItemID` int(11) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `Description` text NOT NULL,
   `Price` int(11) NOT NULL,
@@ -53,9 +82,17 @@ CREATE TABLE `items` (
   `Image` varchar(255) NOT NULL,
   `Status` varchar(255) NOT NULL,
   `Rating` smallint(6) NOT NULL,
+  `Approve` int(11) NOT NULL DEFAULT 0,
   `CatID` int(11) NOT NULL,
   `MemberID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`ItemID`, `Name`, `Description`, `Price`, `AddDate`, `CountryMade`, `Image`, `Status`, `Rating`, `Approve`, `CatID`, `MemberID`) VALUES
+(2, 'hp', 'bejanen', 100, '2020-11-04', 'lebanon', 'no image', '1', 0, 0, 8, 41);
 
 -- --------------------------------------------------------
 
@@ -76,6 +113,14 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userID`, `Username`, `Password`, `Email`, `FullName`, `GroupID`, `TrustStatus`, `RegStatus`, `Date`) VALUES
+(40, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', '', '', 1, 0, 1, NULL),
+(41, 'nada', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'nadasalameh@outlook.com', 'nada salameh', 0, 0, 1, '2020-11-04');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -87,11 +132,20 @@ ALTER TABLE `categories`
   ADD UNIQUE KEY `Name` (`Name`);
 
 --
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD KEY `ItemID` (`ItemID`),
+  ADD KEY `UserCmnt` (`UserID`);
+
+--
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
-  ADD PRIMARY KEY (`itemID`),
-  ADD UNIQUE KEY `Name` (`Name`);
+  ADD PRIMARY KEY (`ItemID`),
+  ADD UNIQUE KEY `Name` (`Name`),
+  ADD KEY `CatID` (`CatID`),
+  ADD KEY `UserID` (`MemberID`);
 
 --
 -- Indexes for table `users`
@@ -108,19 +162,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `ID` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ItemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'To identify the user', AUTO_INCREMENT=40;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'To identify the user', AUTO_INCREMENT=42;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `ItemID` FOREIGN KEY (`ItemID`) REFERENCES `items` (`ItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `UserCmnt` FOREIGN KEY (`UserID`) REFERENCES `users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `items`
+--
+ALTER TABLE `items`
+  ADD CONSTRAINT `CatID` FOREIGN KEY (`CatID`) REFERENCES `categories` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `UserID` FOREIGN KEY (`MemberID`) REFERENCES `users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

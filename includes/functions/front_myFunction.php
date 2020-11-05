@@ -90,10 +90,13 @@
     // **  function to get items from database[functtion accept parameters].
     // =========================================================================
     // */ 
-    function getItems($category,$member=NULL){
+    function getItems($where, $value){
         global $con;
-        $getStmt = $con->prepare("SELECT * FROM items WHERE CatID = ? ORDER BY ItemID DESC");
-        $getStmt->execute(array($category));
+        $getStmt = $con->prepare("SELECT items.*, users.Username as Owner FROM items 
+                                    INNER JOIN users ON users.userID = items.MemberID
+                                     WHERE $where = ? ORDER BY ItemID DESC"
+                                 );
+        $getStmt->execute(array($value));
         $items = $getStmt->fetchAll();
         return $items;
     }
